@@ -36,6 +36,16 @@ export class User extends Entity {
   })
   last_name?: string;
 
+  @property({
+    type: 'string',
+  })
+  access_token?: string;
+
+  @property({
+    type: 'number',
+  })
+  user_type?: string;
+
   constructor(data?: Partial<User>) {
     super(data);
   }
