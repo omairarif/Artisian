@@ -2,20 +2,21 @@
 //Solution: Hide and show them at appropriate times
 var $password = $("#password");
 var $confirmPassword = $("#confirm_password");
+var $email = $("#Email");
 
 //Hide hints
 $("form span").hide();
 
 function isPasswordValid() {
-  return $password.val().length > 8;
+  return $password.val().length > 3;
 }
 
-function arePasswordsMatching() {
-  return $password.val() === $confirmPassword.val();
+function isEmailValid() {
+  return $email.val().length > 5;
 }
 
 function canSubmit() {
-  // return isPasswordValid();
+  return isPasswordValid() && isEmailValid();
 }
 
 function passwordEvent() {
@@ -46,7 +47,7 @@ function enableSubmitEvent() {
 
 function submitButtonAction() {
 
-  $("form span").show();
+  // $("form span").show();
   // Request (GET http://127.0.0.1:3000/signIn)
 
   jQuery.ajax({
@@ -58,29 +59,29 @@ function submitButtonAction() {
     },
     contentType: "application/json",
     data: JSON.stringify({
-      "email": "umer@iba.com",
-      "password": "123123"
+      "email": $email.val(),
+      "password": $password.val()
     })
   })
     .done(function (data, textStatus, jqXHR) {
       console.log("HTTP Request Succeeded: " + jqXHR.status);
       console.log(data);
+      alert("Successfully logged in " + data.user.first_name + " " + data.user.last_name);
+
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       console.log("HTTP Request Failed");
+      alert("Either email or password is incorrect");
     })
     .always(function () {
       /* ... */
     });
-
-
-
 }
 
 //When event happens on password input
 $password.focus(passwordEvent).keyup(passwordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
 
 //When event happens on confirmation input
-$confirmPassword.focus(confirmPasswordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
+// $confirmPassword.focus(confirmPasswordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
 
 enableSubmitEvent();

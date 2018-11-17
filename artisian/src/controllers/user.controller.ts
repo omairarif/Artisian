@@ -29,9 +29,11 @@ export class UserController {
     public userRepository: UserRepository,
     @repository(ClientRepository)
     public clientRepository: ClientRepository,
+    @repository(ArtistRepository)
+    public artistRepository: ArtistRepository,
   ) { }
 
-  @post('/users', {
+  @post('/users/signup', {
     responses: {
       '200': {
         description: 'User model instance',
@@ -135,7 +137,7 @@ export class UserController {
   @post('/users/login', {
     responses: {
       '200': {
-        description: 'User  success',
+        description: 'User success',
       },
     },
   })
@@ -146,27 +148,11 @@ export class UserController {
     if (!isemail.validate(email)) {
       throw new HttpErrors.UnprocessableEntity('invalid email');
     }
-    const users = await (this.userRepository.find({ where: { email: email, password: password }, limit: 1, fields: { password: false } }));
-    const user = users[0];
-    if (users.length == 0) {
-      return {
-        "result": "either email or password is incorrect"
-      }
+    console.log("password " + password + " condition " + (password === undefined));
+    if (password === "undefined") {
+      throw new HttpErrors.UnprocessableEntity('password field is necessary');
     }
-    user.access_token = this.userRepository.createAccessToken();
-    delete user.password;
-    await this.userRepository.update(user);
-
-    console.log("user type " + user.user_type + " condition" + (parseInt(user.user_type || "0") === 0));
-    if (parseInt(user.user_type || "0") === 0) {
-      const clients = await this.clientRepository.find({ where: { user_id: user.id }, limit: 1 })
-      return {
-        "user": user,
-        "client": clients
-      }
-    } else {
-      return user;
-    }
+    return await this.userRepository.login(email, password);
   }
 
 }

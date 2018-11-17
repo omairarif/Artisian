@@ -44,6 +44,39 @@ function enableSubmitEvent() {
   $("#submit").prop("disabled", !canSubmit());
 }
 
+function submitButtonAction() {
+
+  // $("form span").show();
+  // Request (GET http://127.0.0.1:3000/signIn)
+
+  jQuery.ajax({
+    url: "http://127.0.0.1:3000/users/signup",
+    type: "POST",
+    dataType: "json",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    contentType: "application/json",
+    data: JSON.stringify({
+      "email": $email.val(),
+      "password": $password.val()
+    })
+  })
+    .done(function (data, textStatus, jqXHR) {
+      console.log("HTTP Request Succeeded: " + jqXHR.status);
+      console.log(data);
+      alert("Successfully logged in " + data.user.first_name + " " + data.user.last_name);
+
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      console.log("HTTP Request Failed");
+      alert("Either email or password is incorrect");
+    })
+    .always(function () {
+      /* ... */
+    });
+}
+
 //When event happens on password input
 $password.focus(passwordEvent).keyup(passwordEvent).keyup(confirmPasswordEvent).keyup(enableSubmitEvent);
 

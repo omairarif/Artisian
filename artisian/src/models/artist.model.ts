@@ -1,4 +1,4 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
 @model()
 export class Artist extends Entity {
@@ -27,6 +27,11 @@ export class Artist extends Entity {
     type: 'number',
   })
   user_id?: number;
+
+  @property({
+    type: 'number',
+  })
+  rate?: number;
 
   constructor(data?: Partial<Artist>) {
     super(data);

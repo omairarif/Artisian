@@ -23,12 +23,12 @@ export class User extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
   email?: string;
 
   @property({
     type: 'string',
-    required: true,
   })
   first_name: string;
 
@@ -47,8 +47,8 @@ export class User extends Entity {
   })
   user_type?: string;
 
-  @hasMany(() => Client, { keyTo: 'fk_user' })
-  clients?: Client[];
+  // @hasMany(() => Client, { keyTo: 'fk_user' })
+  // clients?: Client[];
 
   constructor(data?: Partial<User>) {
     super(data);
