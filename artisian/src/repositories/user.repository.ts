@@ -5,6 +5,7 @@ import { inject } from '@loopback/core';
 import { ClientRepository } from './client.repository';
 import { ArtistRepository } from './artist.repository';
 import { HttpErrors } from '@loopback/rest';
+import * as isemail from 'isemail';
 
 export class UserRepository extends DefaultCrudRepository<
   User,
@@ -25,6 +26,15 @@ export class UserRepository extends DefaultCrudRepository<
   }
 
   async login(email: string, password: string) {
+
+    if (!isemail.validate(email)) {
+      throw new HttpErrors.UnprocessableEntity('invalid email');
+    }
+    console.log("password " + password + " condition " + (password === undefined));
+    if (password === "undefined") {
+      throw new HttpErrors.UnprocessableEntity('password field is necessary');
+    }
+
     const users = await (this.find({ where: { email: email, password: password }, limit: 1, fields: { password: false } }));
     const user = users[0];
     if (users.length == 0) {
@@ -38,7 +48,7 @@ export class UserRepository extends DefaultCrudRepository<
     await this.update(user);
 
     console.log("user type " + user.user_type + " condition" + (parseInt(user.user_type || "0") === 0));
-    if (parseInt(user.user_type || "-1") === 0) {
+    if (parseInt(user.user_type || "0") === 0) {
       const clients = await this.clientRepository.find({ where: { user_id: user.id }, limit: 1 })
       return {
         "user": user,
@@ -56,6 +66,13 @@ export class UserRepository extends DefaultCrudRepository<
   }
 
   async signup(user: User) {
+
+    const users = await (this.find({ where: { email: user.email } }));
+    if (users.length === 0) {
+      return await this.create(user)
+    } else {
+      throw new HttpErrors.Conflict('account exists');
+    }
 
   }
 

@@ -1,5 +1,7 @@
 //Problem: Hints are shown even when form is valid
 //Solution: Hide and show them at appropriate times
+var $name = $("#name");
+var $email = $("#Email");
 var $password = $("#password");
 var $confirmPassword = $("#confirm_password");
 
@@ -7,31 +9,35 @@ var $confirmPassword = $("#confirm_password");
 $("form span").hide();
 
 function isPasswordValid() {
-  return $password.val().length > 8;
+  return $password.val().length > 4;
 }
 
 function arePasswordsMatching() {
   return $password.val() === $confirmPassword.val();
 }
 
-function canSubmit() {
-  return isPasswordValid() && arePasswordsMatching();
+function isEmailValid() {
+  return $email.val().length > 5;
 }
 
-function passwordEvent(){
-    //Find out if password is valid  
-    if(isPasswordValid()) {
-      //Hide hint if valid
-      $password.next().hide();
-    } else {
-      //else show hint
-      $password.next().show();
-    }
+function canSubmit() {
+  return isPasswordValid() && arePasswordsMatching() && isEmailValid();
+}
+
+function passwordEvent() {
+  //Find out if password is valid  
+  if (isPasswordValid()) {
+    //Hide hint if valid
+    $password.next().hide();
+  } else {
+    //else show hint
+    $password.next().show();
+  }
 }
 
 function confirmPasswordEvent() {
   //Find out if password and confirmation match
-  if(arePasswordsMatching()) {
+  if (arePasswordsMatching()) {
     //Hide hint if match
     $confirmPassword.next().hide();
   } else {
@@ -58,19 +64,23 @@ function submitButtonAction() {
     },
     contentType: "application/json",
     data: JSON.stringify({
+      "password": $password.val(),
       "email": $email.val(),
-      "password": $password.val()
+      "first_name": $name.val().split(" ")[0],
+      "last_name": $name.val().split(" ")[1],
+      "username" : ($name.val().split(" ")[0]+$name.val().split(" ")[1]).toLowerCase()
     })
   })
+  
     .done(function (data, textStatus, jqXHR) {
       console.log("HTTP Request Succeeded: " + jqXHR.status);
       console.log(data);
-      alert("Successfully logged in " + data.user.first_name + " " + data.user.last_name);
+      alert("Successfully signed up " + data.first_name + " " + data.last_name);
 
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       console.log("HTTP Request Failed");
-      alert("Either email or password is incorrect");
+      alert("Either email or password is incorrect " + errorThrown);
     })
     .always(function () {
       /* ... */

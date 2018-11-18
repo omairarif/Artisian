@@ -16,11 +16,9 @@ import {
   requestBody,
   HttpErrors,
 } from '@loopback/rest';
-import { User, Client, Artist } from '../models';
+import { User } from '../models';
 import { UserRepository, ClientRepository, ArtistRepository } from '../repositories';
 
-import * as isemail from 'isemail';
-import { inject } from '@loopback/core';
 
 
 export class UserController {
@@ -33,7 +31,7 @@ export class UserController {
     public artistRepository: ArtistRepository,
   ) { }
 
-  @post('/users/signup', {
+  @post('/users', {
     responses: {
       '200': {
         description: 'User model instance',
@@ -138,6 +136,7 @@ export class UserController {
     responses: {
       '200': {
         description: 'User success',
+        content: { 'application/json': { 'x-ts-type': { 'email': 'string', 'password': 'string' } } },
       },
     },
   })
@@ -145,16 +144,23 @@ export class UserController {
     const email = String(body.email);
     const password = String(body.password);
 
-    if (!isemail.validate(email)) {
-      throw new HttpErrors.UnprocessableEntity('invalid email');
-    }
-    console.log("password " + password + " condition " + (password === undefined));
-    if (password === "undefined") {
-      throw new HttpErrors.UnprocessableEntity('password field is necessary');
-    }
     return await this.userRepository.login(email, password);
   }
 
+  @post('/users/signup', {
+    responses: {
+      '200': {
+        description: 'User model instance',
+        content: { 'application/json': { 'x-ts-type': User } },
+      },
+    },
+  })
+  async signup(@requestBody() user: User): Promise<User> {
+    return await this.userRepository.signup(user);
+  }
+
 }
+
+
 
 

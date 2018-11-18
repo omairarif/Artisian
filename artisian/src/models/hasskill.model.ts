@@ -1,12 +1,12 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
 @model()
-export class Has_skill extends Entity {
+export class Hasskill extends Entity {
   @property({
     type: 'number',
     id: true,
   })
-  id?: number;
+  id: number;
 
   @property({
     type: 'number',
@@ -18,7 +18,7 @@ export class Has_skill extends Entity {
   })
   skill_id?: number;
 
-  constructor(data?: Partial<Has_skill>) {
+  constructor(data?: Partial<Hasskill>) {
     super(data);
   }
 }

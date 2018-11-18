@@ -6,4 +6,5 @@ export * from './proposal.model';
 export * from './contract.model';
 export * from './skill.model';
 export * from './certification.model';
-// export * from './has_skill.model';
+
+export * from './hasskill.model';
