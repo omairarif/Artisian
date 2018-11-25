@@ -36,13 +36,13 @@ export class UserRepository extends DefaultCrudRepository<
     }
 
     const users = await (this.find({ where: { email: email, password: password }, limit: 1, fields: { password: false } }));
-    const user = users[0];
     if (users.length == 0) {
       throw new HttpErrors.UnprocessableEntity("either email or password is incorrect");
       return {
         "result": "either email or password is incorrect"
       }
     }
+    const user = users[0];
     user.access_token = this.createAccessToken();
     delete user.password;
     await this.update(user);
@@ -75,6 +75,37 @@ export class UserRepository extends DefaultCrudRepository<
     }
 
   }
+
+  async getUserById(id: number) {
+
+    const users = await (this.find({ where: { id: id }, limit: 1, fields: { password: false } }));
+    if (users.length == 0) {
+      throw new HttpErrors.UnprocessableEntity("either email or password is incorrect");
+      return {
+        "result": "either email or password is incorrect"
+      }
+    }
+    const user = users[0];
+
+    console.log("user type " + user.user_type + " condition" + (parseInt(user.user_type || "0") === 0));
+    if (parseInt(user.user_type || "0") === 0) {
+      const clients = await this.clientRepository.find({ where: { user_id: user.id }, limit: 1 })
+      return {
+        "user": user,
+        "informtion": clients[0]
+      }
+    } else if (parseInt(user.user_type || "-1") === 1) {
+      const artists = await this.artistRepository.find({ where: { user_id: user.id }, limit: 1 })
+      return {
+        "user": user,
+        "informtion": artists[0]
+      }
+    } else {
+      return user;
+    }
+
+  }
+
 
 
 

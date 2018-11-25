@@ -46,6 +46,11 @@ export class User extends Entity {
   })
   user_type?: string;
 
+  @property({
+    type: 'string',
+  })
+  image?: string;
+
   // @hasMany(() => Client, { keyTo: 'fk_user' })
   // clients?: Client[];
 

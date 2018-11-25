@@ -17,7 +17,7 @@ import {
   HttpErrors,
 } from '@loopback/rest';
 import { User } from '../models';
-import { UserRepository, ClientRepository, ArtistRepository } from '../repositories';
+import { UserRepository } from '../repositories';
 
 
 
@@ -25,23 +25,19 @@ export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
-    @repository(ClientRepository)
-    public clientRepository: ClientRepository,
-    @repository(ArtistRepository)
-    public artistRepository: ArtistRepository,
   ) { }
 
-  @post('/users', {
-    responses: {
-      '200': {
-        description: 'User model instance',
-        content: { 'application/json': { 'x-ts-type': User } },
-      },
-    },
-  })
-  async create(@requestBody() user: User): Promise<User> {
-    return await this.userRepository.create(user);
-  }
+  // @post('/users', {
+  //   responses: {
+  //     '200': {
+  //       description: 'User model instance',
+  //       content: { 'application/json': { 'x-ts-type': User } },
+  //     },
+  //   },
+  // })
+  // async create(@requestBody() user: User): Promise<User> {
+  //   return await this.userRepository.create(user);
+  // }
 
   @get('/users/count', {
     responses: {
@@ -79,20 +75,20 @@ export class UserController {
     return users;
   }
 
-  @patch('/users', {
-    responses: {
-      '200': {
-        description: 'User PATCH success count',
-        content: { 'application/json': { schema: CountSchema } },
-      },
-    },
-  })
-  async updateAll(
-    @requestBody() user: User,
-    @param.query.object('where', getWhereSchemaFor(User)) where?: Where,
-  ): Promise<Count> {
-    return await this.userRepository.updateAll(user, where);
-  }
+  // @patch('/users', {
+  //   responses: {
+  //     '200': {
+  //       description: 'User PATCH success count',
+  //       content: { 'application/json': { schema: CountSchema } },
+  //     },
+  //   },
+  // })
+  // async updateAll(
+  //   @requestBody() user: User,
+  //   @param.query.object('where', getWhereSchemaFor(User)) where?: Where,
+  // ): Promise<Count> {
+  //   return await this.userRepository.updateAll(user, where);
+  // }
 
   @get('/users/{id}', {
     responses: {
@@ -102,9 +98,8 @@ export class UserController {
       },
     },
   })
-  async findById(@param.path.number('id') id: number): Promise<User> {
-    const users = await (this.userRepository.find({ where: { id: id }, limit: 1, fields: { password: false } }));
-    return users[0];
+  async findById(@param.path.number('id') id: number): Promise<any> {
+    return await this.userRepository.getUserById(id);
   }
 
   @patch('/users/{id}', {

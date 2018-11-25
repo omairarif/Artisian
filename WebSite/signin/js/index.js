@@ -66,7 +66,8 @@ function submitButtonAction() {
     .done(function (data, textStatus, jqXHR) {
       console.log("HTTP Request Succeeded: " + jqXHR.status);
       console.log(data);
-      alert("Successfully logged in " + data.user.first_name + " " + data.user.last_name);
+      // alert("Successfully logged in " + data.user.first_name + " " + data.user.last_name);
+      window.location.replace("../profile/index.html?id="+data.user.id);
 
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
