@@ -1,4 +1,4 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
 @model()
 export class Job extends Entity {
@@ -32,6 +32,11 @@ export class Job extends Entity {
     type: 'number',
   })
   skill_id?: number;
+
+  @property({
+    type: 'string',
+  })
+  title?: string;
 
   constructor(data?: Partial<Job>) {
     super(data);
