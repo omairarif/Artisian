@@ -51,9 +51,6 @@ export class User extends Entity {
   })
   image?: string;
 
-  // @hasMany(() => Client, { keyTo: 'fk_user' })
-  // clients?: Client[];
-
   constructor(data?: Partial<User>) {
     super(data);
   }

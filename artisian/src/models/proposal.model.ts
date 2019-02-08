@@ -1,4 +1,4 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
 @model()
 export class Proposal extends Entity {
@@ -19,7 +19,7 @@ export class Proposal extends Entity {
   artist_id?: number;
 
   @property({
-    type: 'date',
+    type: 'string',
   })
   created_date?: string;
 

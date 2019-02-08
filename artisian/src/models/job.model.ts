@@ -38,6 +38,11 @@ export class Job extends Entity {
   })
   title?: string;
 
+  // @property({
+  //   type: 'string',
+  // })
+  // skill?: string;
+
   constructor(data?: Partial<Job>) {
     super(data);
   }

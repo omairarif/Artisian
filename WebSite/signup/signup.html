@@ -40,9 +40,20 @@
 			<input id="confirm_password" name="confirm_password" type="password">
 			<span>Your passwords do not match</span>
 		</p>
-		<button class="w3-button w3-padding-large w3-block w3-black w3-large" id="subbtn" type="button" onclick="submitButtonAction()" >
+		
+		
+		<label>User Type</label>
+            <select name="field5" class="field-select" id="userType">
+            <option value="Artist">Artist</option>
+            <option value="Client">Client</option>
+            </select>
+			
+			<p></p>
+
+		<button class="w3-button w3-padding-large w3-block w3-black w3-large"  type="button" onclick="submitButtonAction()" >
 			Sign Up
 		</button>
+
 
 		<!-- <p id="subbtn">
 			<input type="submit" value="Create My Account" id="submit">

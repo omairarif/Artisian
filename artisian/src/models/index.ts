@@ -8,3 +8,4 @@ export * from './skill.model';
 export * from './certification.model';
 
 export * from './hasskill.model';
+export * from './jobs-result.model';

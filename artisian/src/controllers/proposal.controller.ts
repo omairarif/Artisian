@@ -15,20 +15,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {Proposal} from '../models';
-import {ProposalRepository} from '../repositories';
+import { Proposal } from '../models';
+import { ProposalRepository } from '../repositories';
 
 export class ProposalController {
   constructor(
     @repository(ProposalRepository)
-    public proposalRepository : ProposalRepository,
-  ) {}
+    public proposalRepository: ProposalRepository,
+  ) { }
 
   @post('/proposals', {
     responses: {
       '200': {
         description: 'Proposal model instance',
-        content: {'application/json': {'x-ts-type': Proposal}},
+        content: { 'application/json': { 'x-ts-type': Proposal } },
       },
     },
   })
@@ -40,7 +40,7 @@ export class ProposalController {
     responses: {
       '200': {
         description: 'Proposal model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -56,7 +56,7 @@ export class ProposalController {
         description: 'Array of Proposal model instances',
         content: {
           'application/json': {
-            schema: {type: 'array', items: {'x-ts-type': Proposal}},
+            schema: { type: 'array', items: { 'x-ts-type': Proposal } },
           },
         },
       },
@@ -68,11 +68,75 @@ export class ProposalController {
     return await this.proposalRepository.find(filter);
   }
 
+  @get('/proposals/client/{id}', {
+    responses: {
+      '200': {
+        description: 'Array of Proposal model instances',
+        content: {
+          'application/json': {
+            schema: { type: 'array', items: { 'x-ts-type': Proposal } },
+          },
+        },
+      },
+    },
+  })
+  async getAllProposals(@param.path.number('id') id: number) {
+    return await this.proposalRepository.getAllProposals(id);
+  }
+
+  @get('/proposals/getProposalById/{id}', {
+    responses: {
+      '200': {
+        description: 'Array of Proposal model instances',
+        content: {
+          'application/json': {
+            schema: { type: 'array', items: { 'x-ts-type': Proposal } },
+          },
+        },
+      },
+    },
+  })
+  async getProposalById(@param.path.number('id') id: number) {
+    return await this.proposalRepository.getProposalById(id);
+  }
+
+  @get('/proposals/getProposalsById/{id}', {
+    responses: {
+      '200': {
+        description: 'Array of Proposal model instances',
+        content: {
+          'application/json': {
+            schema: { type: 'array', items: { 'x-ts-type': Proposal } },
+          },
+        },
+      },
+    },
+  })
+  async getProposalsById(@param.path.number('id') id: number) {
+    return await this.proposalRepository.getProposalsById(id);
+  }
+
+  @get('/proposals/getProposalsByJobId/{id}', {
+    responses: {
+      '200': {
+        description: 'Array of Proposal model instances',
+        content: {
+          'application/json': {
+            schema: { type: 'array', items: { 'x-ts-type': Proposal } },
+          },
+        },
+      },
+    },
+  })
+  async getProposalsByJobId(@param.path.number('id') id: number) {
+    return await this.proposalRepository.getProposalsByJobId(id);
+  }
+
   @patch('/proposals', {
     responses: {
       '200': {
         description: 'Proposal PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -87,7 +151,7 @@ export class ProposalController {
     responses: {
       '200': {
         description: 'Proposal model instance',
-        content: {'application/json': {'x-ts-type': Proposal}},
+        content: { 'application/json': { 'x-ts-type': Proposal } },
       },
     },
   })

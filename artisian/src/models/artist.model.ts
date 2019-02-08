@@ -33,6 +33,21 @@ export class Artist extends Entity {
   })
   rate?: number;
 
+  @property({
+    type: 'string',
+  })
+  facebook?: string;
+
+  @property({
+    type: 'string',
+  })
+  github?: string;
+
+  @property({
+    type: 'string',
+  })
+  linkedin?: string;
+
   constructor(data?: Partial<Artist>) {
     super(data);
   }

@@ -15,20 +15,20 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {Job} from '../models';
-import {JobRepository} from '../repositories';
+import { Job } from '../models';
+import { JobRepository } from '../repositories';
 
 export class JobController {
   constructor(
     @repository(JobRepository)
-    public jobRepository : JobRepository,
-  ) {}
+    public jobRepository: JobRepository,
+  ) { }
 
   @post('/jobs', {
     responses: {
       '200': {
         description: 'Job model instance',
-        content: {'application/json': {'x-ts-type': Job}},
+        content: { 'application/json': { 'x-ts-type': Job } },
       },
     },
   })
@@ -40,7 +40,7 @@ export class JobController {
     responses: {
       '200': {
         description: 'Job model count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -56,7 +56,7 @@ export class JobController {
         description: 'Array of Job model instances',
         content: {
           'application/json': {
-            schema: {type: 'array', items: {'x-ts-type': Job}},
+            schema: { type: 'array', items: { 'x-ts-type': Job } },
           },
         },
       },
@@ -68,11 +68,27 @@ export class JobController {
     return await this.jobRepository.find(filter);
   }
 
+  @get('/jobs/getJobsById/{id}', {
+    responses: {
+      '200': {
+        description: 'Array of Job model instances',
+        content: {
+          'application/json': {
+            schema: { type: 'array', items: { 'x-ts-type': Job } },
+          },
+        },
+      },
+    },
+  })
+  async getJobsById(@param.path.number('id') id: number): Promise<Job[]> {
+    return await this.jobRepository.getJobsById(id);
+  }
+
   @patch('/jobs', {
     responses: {
       '200': {
         description: 'Job PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: { 'application/json': { schema: CountSchema } },
       },
     },
   })
@@ -87,7 +103,7 @@ export class JobController {
     responses: {
       '200': {
         description: 'Job model instance',
-        content: {'application/json': {'x-ts-type': Job}},
+        content: { 'application/json': { 'x-ts-type': Job } },
       },
     },
   })

@@ -67,7 +67,7 @@ function submitButtonAction() {
       console.log("HTTP Request Succeeded: " + jqXHR.status);
       console.log(data);
       // alert("Successfully logged in " + data.user.first_name + " " + data.user.last_name);
-      window.location.replace("../profile/index.html?id="+data.user.id);
+      window.location.replace("../profilebootstrap/indexx.html?id="+data.user.id + "&type=" + data.user.user_type);
 
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
